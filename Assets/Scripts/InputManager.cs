@@ -9,44 +9,48 @@ public class InputManager : MonoBehaviour
     private ICommand buttonE;
     private ICommand buttonQ;
 
-    Vector2 movement;
-    public float speed = 5f;
+    Vector2 direction;
+    public float speed = 3f;
+    float time;
+    
 
 
     void Start() {
-        buttonSpace = new AttackCommand(body);
-        buttonE = new SpecialAttackCommand(body);
+        buttonSpace = new DashCommand(body, time, direction);
+        buttonE = new AttackCommand(body);
         buttonQ = new AttackCommand(body);
-
-
     }
 
     void Update()
     {
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical"); 
-        if (Input.GetKey(KeyCode.E)&& (Input.GetKey(KeyCode.Space))){
-            buttonE.Execute();
-        }
-        else if (Input.GetKeyDown(KeyCode.Space))
+        
+        time = Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.Space))
         {
+            //Me di cuenta que basta con crearlo dentro del if para mandar el time dentro de la creación del comando
+            //Busque y es comun hacerlo así, no es negro
+            time = Time.deltaTime;
+            buttonSpace = new DashCommand(body, time, direction);
             buttonSpace.Execute();
         }
-        else if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             buttonQ.Execute();
         }
-        else if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            buttonE.Execute2();
-        }
-        else if (Input.GetKeyDown(KeyCode.E)&& (Input.GetKeyDown(KeyCode.Space))){
             buttonE.Execute();
         }
+        if (Input.GetKeyDown(KeyCode.E)&& (Input.GetKeyDown(KeyCode.Space))){
+            buttonE.Execute();
+            
+        }
+        direction.x = Input.GetAxisRaw("Horizontal");
+        direction.y = Input.GetAxisRaw("Vertical"); 
     }
 
     void FixedUpdate()
     {
-        body.MovePosition(body.position + movement * speed * Time.fixedDeltaTime);
+        body.MovePosition(body.position + direction * speed * Time.fixedDeltaTime);
     }
 }

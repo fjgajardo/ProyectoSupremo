@@ -12,13 +12,7 @@ public class AttackCommand : ICommand
     }
 
     public void Execute()
-    {  
-        Debug.Log("Attack");
-
-    }
-    public void Execute2()
     {
         throw new System.NotImplementedException();
     }
-
 }

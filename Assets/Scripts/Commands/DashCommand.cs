@@ -18,7 +18,7 @@ public class DashCommand : ICommand
 
     public void Execute()
     {  
-        dashSpeed = 200f;
+        dashSpeed = 150f;
         dashSpeedDecrease = 0.1f;
         float dashSpeedMin = 100f;
         while (dashSpeed >= dashSpeedMin)

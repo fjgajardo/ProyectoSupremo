@@ -21,13 +21,16 @@ public class DashCommand : ICommand
         dashSpeed = 150f;
         dashSpeedDecrease = 0.1f;
         float dashSpeedMin = 100f;
-        while (dashSpeed >= dashSpeedMin)
+        while (true)
         {
             dashSpeed -= dashSpeedDecrease * dashSpeed;
             body.velocity = direction.normalized * dashSpeed;
+            if (dashSpeed < dashSpeedMin)
+            {
+                input.state = InputManager.States.Normal;
+                break;
+            }
         }
-        input.state = InputManager.States.Normal;
-
     }
 
 

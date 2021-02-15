@@ -25,7 +25,6 @@ public class DashCommand : ICommand
         {
             dashSpeed -= dashSpeedDecrease * dashSpeed;
             body.velocity = direction.normalized * dashSpeed;
-            Debug.Log(dashSpeed + "   " + body.velocity);
         }
         input.state = InputManager.States.Normal;
 

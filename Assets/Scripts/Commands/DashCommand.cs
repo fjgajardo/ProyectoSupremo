@@ -8,7 +8,10 @@ public class DashCommand : ICommand
     private Vector2 direction;    
     private float dashSpeed;
     private float dashSpeedDecrease;
+
+    
     private InputManager input;
+    private float initTime;
 
     public DashCommand(Rigidbody2D body, Vector2 direction, InputManager input){
         this.body = body;
@@ -18,13 +21,17 @@ public class DashCommand : ICommand
 
     public void Execute()
     {  
-        dashSpeed = 150f;
-        dashSpeedDecrease = 0.1f;
+        dashSpeed = 200f;
+        dashSpeedDecrease = 0.00001f;
         float dashSpeedMin = 100f;
+        //float dashTime = 1f;
+        
+
         while (true)
         {
-            dashSpeed -= dashSpeedDecrease * dashSpeed;
+            Debug.Log(Time.time);
             body.velocity = direction.normalized * dashSpeed;
+            dashSpeed -= dashSpeedDecrease * dashSpeed;
             if (dashSpeed < dashSpeedMin)
             {
                 input.state = InputManager.States.Normal;

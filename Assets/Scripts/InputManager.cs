@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour 
 {
+    public GameObject character;
     public Rigidbody2D body;
     private ICommand buttonSpace;
     private ICommand buttonE;
@@ -15,15 +16,18 @@ public class InputManager : MonoBehaviour
     }
     Vector2 direction;
     public float speed;
-    float time;
+    private float dashSpeed;
+    private float dashSpeedDecrease;
+    private float dashSpeedMin;
     public States state;
+    public float timeDash;
     
 
 
     void Awake() {
         buttonE = new AttackCommand(body);
         buttonQ = new AttackCommand(body);
-        speed = 8f;
+        speed = 3f;
         state = States.Normal;
     }
 
@@ -32,45 +36,50 @@ public class InputManager : MonoBehaviour
         switch (state)
         {
             case States.Normal:
-                direction.x = 0f;
-                direction.y = 0f;
-
+                dashSpeed = 6.5f;
+                dashSpeedDecrease = 1f;
+                dashSpeedMin = 1f;
+                
+                //Movimiento Y
                 if (Input.GetKey(KeyCode.W))
                 {
                     direction.y = +1f;
                 }
-                if (Input.GetKey(KeyCode.S))
+                else if (Input.GetKey(KeyCode.S))
                 {
                     direction.y = -1f;
                 }
+                else 
+                {
+                    direction.y = 0f;
+                }
+                //Movimiento X
                 if (Input.GetKey(KeyCode.A))
                 {
                     direction.x = -1f;
                 }
-                if (Input.GetKey(KeyCode.D))
+                else if (Input.GetKey(KeyCode.D))
                 {
                     direction.x = +1f;
                 }
+                else 
+                {
+                    direction.x = 0f;
+                }
 
-                time = Time.deltaTime;
-
+                //Dash
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    //Me di cuenta que basta con crearlo dentro del if para mandar el time dentro de la creación del comando
-                    //Busque y es comun hacerlo así, no es negro
-                    buttonSpace = new DashCommand(body, direction, this);
-                    state = States.Dashing;
-                    
+                    timeDash = Time.time + 0.15f;
+                    state = States.Dashing;   
                 }
+
                 if (Input.GetKeyDown(KeyCode.Q))
                 {
                     buttonQ.Execute();
                 }
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    buttonE.Execute();
-                }
-                if (Input.GetKeyDown(KeyCode.E)&& (Input.GetKeyDown(KeyCode.Space))){
                     buttonE.Execute();
                 }
                 break;
@@ -83,7 +92,7 @@ public class InputManager : MonoBehaviour
     }
 
     void FixedUpdate()
-    {
+    {   
         switch (state)
         {
             case States.Normal:
@@ -92,9 +101,18 @@ public class InputManager : MonoBehaviour
                 break;
 
             case States.Dashing:
-                buttonSpace.Execute();
-                break;
+                body.velocity = direction.normalized * dashSpeed;
+                if (Time.time > timeDash)
+                {
+                    dashSpeed -= dashSpeedDecrease;
+                }
+                Debug.Log(Time.time + ": Velocidad: " + body.velocity);
+                if (dashSpeed < dashSpeedMin)
+                {
+                    state = States.Normal;
+                }
 
+                break; 
         }
         
     }

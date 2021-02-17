@@ -36,11 +36,16 @@ public class InputManager : MonoBehaviour
         switch (state)
         {
             case States.Normal:
+                speed = 3f;
                 dashSpeed = 6.5f;
                 dashSpeedDecrease = 1f;
                 dashSpeedMin = 1f;
                 
                 //Movimiento Y
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    speed = 5f;
+                }
                 if (Input.GetKey(KeyCode.W))
                 {
                     direction.y = +1f;

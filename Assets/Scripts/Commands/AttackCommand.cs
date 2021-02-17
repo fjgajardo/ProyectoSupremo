@@ -5,14 +5,30 @@ using UnityEngine;
 public class AttackCommand : ICommand
 {
     private Rigidbody2D body;
+    public float attackRange;
+    public Transform weaponHitBox;
+    public LayerMask enemyLayer;
+    
 
-    public AttackCommand(Rigidbody2D body){
 
-        this.body = body;
+    public AttackCommand(Transform weaponHitBox, LayerMask enemyLayer){
+        this.weaponHitBox = weaponHitBox;
+        this.enemyLayer = enemyLayer;
+        this.attackRange = 0.4f;
+        
     }
 
     public void Execute()
     {
-        throw new System.NotImplementedException();
+        
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(weaponHitBox.position, attackRange, enemyLayer);
+
+        foreach(Collider2D enemy in hitEnemies)
+        {
+            Debug.Log("Enemy name: "+ enemy.name);
+            enemy.name = "Been Hit";
+        }
     }
+
+    
 }

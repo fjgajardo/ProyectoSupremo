@@ -9,30 +9,37 @@ public class InputManager : MonoBehaviour
     private ICommand buttonSpace;
     private ICommand buttonE;
     private ICommand buttonQ;
+    private ICommand buttonMouse0;
     public enum States
     {
         Normal, 
         Dashing,   
     }
     Vector2 direction;
+    Vector2 mouseVector;
     public float speed;
     private float dashSpeed;
     private float dashSpeedDecrease;
     private float dashSpeedMin;
     public States state;
     public float timeDash;
+
+    public Transform weaponHitBox;
+    public LayerMask enemyLayer;
+
     
 
-
+    
     void Awake() {
-        buttonE = new AttackCommand(body);
-        buttonQ = new AttackCommand(body);
+        buttonMouse0 = new AttackCommand(weaponHitBox,enemyLayer);
         speed = 3f;
         state = States.Normal;
     }
 
     void Update()
     {
+        GetMousePos();
+        
         switch (state)
         {
             case States.Normal:
@@ -79,14 +86,12 @@ public class InputManager : MonoBehaviour
                     state = States.Dashing;   
                 }
 
-                if (Input.GetKeyDown(KeyCode.Q))
+                if (Input.GetMouseButtonDown(0))
                 {
-                    buttonQ.Execute();
+                    buttonMouse0.Execute();
+                    
                 }
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    buttonE.Execute();
-                }
+
                 break;
             case States.Dashing:
                 break;
@@ -111,7 +116,7 @@ public class InputManager : MonoBehaviour
                 {
                     dashSpeed -= dashSpeedDecrease;
                 }
-                Debug.Log(Time.time + ": Velocidad: " + body.velocity);
+                
                 if (dashSpeed < dashSpeedMin)
                 {
                     state = States.Normal;
@@ -121,4 +126,23 @@ public class InputManager : MonoBehaviour
         }
         
     }
+
+    void GetMousePos(){
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        float finalX = mousePos.x - character.transform.position.x;
+        float finalY = mousePos.y - character.transform.position.y;
+        mouseVector = new Vector2(finalX,finalY);
+        mouseVector = mouseVector.normalized;
+        weaponHitBox.transform.position = new Vector3(mouseVector.x/2 + character.transform.position.x, mouseVector.y/2 + character.transform.position.y,0f);
+        
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (weaponHitBox == null)
+            return;
+        
+        Gizmos.DrawWireSphere(weaponHitBox.position, 0.4f);
+    }
+
 }

@@ -319,13 +319,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 1076229414}
   body: {fileID: 1076229416}
-  speed: 8
-  state: 0
-  timeDash: 0
   weaponHitBox: {fileID: 439218422}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 1024
+  state: 0
+  speed: 8
+  timeDash: 0
+  healthPlayer: 0
 --- !u!50 &1076229416
 Rigidbody2D:
   serializedVersion: 4
@@ -582,7 +583,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1727251203}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.28, y: 1.04, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1789742379}
@@ -3381,42 +3382,42 @@ PrefabInstance:
     - target: {fileID: 5890802837618066405, guid: 413081fc53a78a043b38591243616398,
         type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].x
-      value: -0.46923566
+      value: -0.23429656
       objectReference: {fileID: 0}
     - target: {fileID: 5890802837618066405, guid: 413081fc53a78a043b38591243616398,
         type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].y
-      value: 1.3606884
+      value: 0.36435172
       objectReference: {fileID: 0}
     - target: {fileID: 5890802837618066405, guid: 413081fc53a78a043b38591243616398,
         type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].x
-      value: -0.4966643
+      value: -0.19493175
       objectReference: {fileID: 0}
     - target: {fileID: 5890802837618066405, guid: 413081fc53a78a043b38591243616398,
         type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].y
-      value: -0.13825098
+      value: 0.00054606795
       objectReference: {fileID: 0}
     - target: {fileID: 5890802837618066405, guid: 413081fc53a78a043b38591243616398,
         type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[3].x
-      value: 0.34602916
+      value: 0.19516313
       objectReference: {fileID: 0}
     - target: {fileID: 5890802837618066405, guid: 413081fc53a78a043b38591243616398,
         type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[3].y
-      value: -0.17146692
+      value: 0.009572327
       objectReference: {fileID: 0}
     - target: {fileID: 5890802837618066405, guid: 413081fc53a78a043b38591243616398,
         type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[5].x
-      value: 0.623919
+      value: 0.21061826
       objectReference: {fileID: 0}
     - target: {fileID: 5890802837618066405, guid: 413081fc53a78a043b38591243616398,
         type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[5].y
-      value: 1.3285884
+      value: 0.37499416
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 413081fc53a78a043b38591243616398, type: 3}

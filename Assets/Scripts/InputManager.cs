@@ -2,44 +2,47 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour 
+public class InputManager : MonoBehaviour, ICharacter
 {
+    //Utilidades
     public GameObject character;
     public Rigidbody2D body;
+    Vector2 direction;
+    Vector2 mouseVector;
+    public Transform weaponHitBox;
+    public LayerMask enemyLayer;
+    //Botones
     private ICommand buttonSpace;
     private ICommand buttonE;
     private ICommand buttonQ;
     private ICommand buttonMouse0;
+    private ICommand recieveDamage;
+    //Estados
+    public States state;
     public enum States
     {
         Normal, 
         Dashing,   
     }
-    Vector2 direction;
-    Vector2 mouseVector;
+    //Parametros
     public float speed;
     private float dashSpeed;
     private float dashSpeedDecrease;
     private float dashSpeedMin;
-    public States state;
     public float timeDash;
+    public float healthPlayer;
 
-    public Transform weaponHitBox;
-    public LayerMask enemyLayer;
 
-    
-
-    
     void Awake() {
         buttonMouse0 = new AttackCommand(weaponHitBox,enemyLayer);
         speed = 3f;
         state = States.Normal;
+        healthPlayer = 4;
     }
 
     void Update()
     {
         GetMousePos();
-        
         switch (state)
         {
             case States.Normal:
@@ -86,19 +89,16 @@ public class InputManager : MonoBehaviour
                     state = States.Dashing;   
                 }
 
+                //Ataque
                 if (Input.GetMouseButtonDown(0))
                 {
-                    buttonMouse0.Execute();
-                    
+                    Attack();
                 }
-
                 break;
+
             case States.Dashing:
                 break;
         }
-        
-
-
     }
 
     void FixedUpdate()
@@ -121,10 +121,8 @@ public class InputManager : MonoBehaviour
                 {
                     state = States.Normal;
                 }
-
                 break; 
-        }
-        
+        }    
     }
 
     void GetMousePos(){
@@ -134,15 +132,28 @@ public class InputManager : MonoBehaviour
         mouseVector = new Vector2(finalX,finalY);
         mouseVector = mouseVector.normalized;
         weaponHitBox.transform.position = new Vector3(mouseVector.x/2 + character.transform.position.x, mouseVector.y/2 + character.transform.position.y,0f);
-        
+    }
+    
+
+    public void RecieveDamage(float damage)
+    {
+        recieveDamage = new healthCommand(damage, this);
+        recieveDamage.Execute();
     }
 
-    void OnDrawGizmosSelected()
+    public void Attack()
     {
-        if (weaponHitBox == null)
-            return;
-        
-        Gizmos.DrawWireSphere(weaponHitBox.position, 0.4f);
+        buttonMouse0.Execute(); 
     }
+
+
+    /*  void OnDrawGizmosSelected()
+        {
+            if (weaponHitBox == null)
+                return;
+
+            Gizmos.DrawWireSphere(weaponHitBox.position, 0.4f);
+        } */
+
 
 }

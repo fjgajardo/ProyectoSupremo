@@ -55,7 +55,7 @@ public class Enemy : MonoBehaviour , ICharacter
     
     public void RecieveDamage(float damage)
     {
-        recieveDamage = new healthCommand(damage);
+        /* recieveDamage = new healthCommand(damage);
         recieveDamage.Execute(); */
     }
 

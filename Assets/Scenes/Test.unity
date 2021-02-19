@@ -317,6 +317,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8cd626c1cf71cf48a29355ccf822bc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 0
+  damage: 0
   character: {fileID: 1076229414}
   body: {fileID: 1076229416}
   weaponHitBox: {fileID: 439218422}
@@ -326,7 +328,6 @@ MonoBehaviour:
   state: 0
   speed: 8
   timeDash: 0
-  healthPlayer: 0
 --- !u!50 &1076229416
 Rigidbody2D:
   serializedVersion: 4

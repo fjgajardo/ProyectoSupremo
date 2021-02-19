@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour, ICharacter
+public class InputManager : Character
 {
     //Utilidades
     public GameObject character;
@@ -16,7 +16,6 @@ public class InputManager : MonoBehaviour, ICharacter
     private ICommand buttonE;
     private ICommand buttonQ;
     private ICommand buttonMouse0;
-    private ICommand recieveDamage;
     //Estados
     public States state;
     public enum States
@@ -30,14 +29,14 @@ public class InputManager : MonoBehaviour, ICharacter
     private float dashSpeedDecrease;
     private float dashSpeedMin;
     public float timeDash;
-    public float healthPlayer;
+    
 
 
     void Awake() {
         buttonMouse0 = new AttackCommand(weaponHitBox,enemyLayer);
         speed = 3f;
         state = States.Normal;
-        healthPlayer = 4;
+        health = 4;
     }
 
     void Update()
@@ -133,27 +132,22 @@ public class InputManager : MonoBehaviour, ICharacter
         mouseVector = mouseVector.normalized;
         weaponHitBox.transform.position = new Vector3(mouseVector.x/2 + character.transform.position.x, mouseVector.y/2 + character.transform.position.y,0f);
     }
-    
 
-    public void RecieveDamage(float damage)
-    {
-        recieveDamage = new healthCommand(damage, this);
-        recieveDamage.Execute();
-    }
-
-    public void Attack()
+    public override void Attack()
     {
         buttonMouse0.Execute(); 
     }
 
 
-    /*  void OnDrawGizmosSelected()
+
+
+    void OnDrawGizmosSelected()
         {
             if (weaponHitBox == null)
                 return;
 
             Gizmos.DrawWireSphere(weaponHitBox.position, 0.4f);
-        } */
+        }
 
 
 }

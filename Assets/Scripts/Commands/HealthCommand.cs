@@ -5,9 +5,10 @@ using UnityEngine;
 public class healthCommand : ICommand
 {
     private float damage;
-    private ICharacter character;
+    private Character character;
 
-    public healthCommand(float damage, ICharacter character){
+    public healthCommand(float damage, Character character)
+    {
         this.damage = damage;
         this.character = character;
         
@@ -15,7 +16,7 @@ public class healthCommand : ICommand
 
     public void Execute()
     {
-        character.healthPlayer -= damage;
+       character.health -= damage;
     }
     
 }

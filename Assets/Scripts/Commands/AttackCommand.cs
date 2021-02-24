@@ -25,8 +25,8 @@ public class AttackCommand : ICommand
 
         foreach(Collider2D enemy in hitEnemies)
         {
-            Debug.Log("Enemy name: "+ enemy.name);
-            
+            Debug.Log("Hit");
+            enemy.GetComponent<Enemy>().RecieveDamage(40f);            
         }
     }
 

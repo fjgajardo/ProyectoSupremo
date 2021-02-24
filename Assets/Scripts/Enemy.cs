@@ -2,21 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour , ICharacter
+public class Enemy : Character
 {
     //Utilidades
-    public GameObject character;
-    public Rigidbody2D body;
-    Vector2 direction;
-    Vector2 mouseVector;
-    public Transform weaponHitBox;
-    public LayerMask enemyLayer;
+    public GameObject objeto;
+
     //Botones
-    private ICommand buttonSpace;
-    private ICommand buttonE;
-    private ICommand buttonQ;
-    private ICommand buttonMouse0;
-    private ICommand recieveDamage;
+
     //Estados
     public States state;
     public enum States
@@ -25,19 +17,12 @@ public class Enemy : MonoBehaviour , ICharacter
         Dashing,   
     }
     //Parametros
-    public float speed;
-    private float dashSpeed;
-    private float dashSpeedDecrease;
-    private float dashSpeedMin;
-    public float timeDash;
-    public float healthPlayer;
+
 
 
     void Awake() {
-        buttonMouse0 = new AttackCommand(weaponHitBox,enemyLayer);
-        speed = 3f;
         state = States.Normal;
-        healthPlayer = 4;
+        health = 100f;
     }
 
     void Update()
@@ -53,13 +38,14 @@ public class Enemy : MonoBehaviour , ICharacter
         //Recibir ubicación del jugador
     }
     
-    public void RecieveDamage(float damage)
+
+    public override void RecieveDamage(float damage)
     {
-        /* recieveDamage = new healthCommand(damage);
-        recieveDamage.Execute(); */
+        recieveDamage = new healthCommand(damage, this);
+        recieveDamage.Execute();
     }
 
-    public void Attack()
+    public override void Attack()
     {
         throw new System.NotImplementedException();
     }
